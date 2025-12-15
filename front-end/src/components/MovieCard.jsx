@@ -1,3 +1,5 @@
+import "../css/MovieCard.css";
+
 function MovieCard({ movie }) {
   //skeleton function for click on favorite button
   function onFavoriteClick() {

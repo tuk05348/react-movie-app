@@ -1,5 +1,6 @@
 import MovieCard from "../components/MovieCard";
 import { useState } from "react";
+import "../css/Home.css";
 
 function Home() {
   //defines state and the function to update state
@@ -33,7 +34,7 @@ function Home() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         ></input>
-        <button type="submit" className="search-btn">
+        <button type="submit" className="search-button">
           Search
         </button>
       </form>
