@@ -14,6 +14,7 @@ public class MovieResponseDTO {
     @JsonProperty("poster_path") // map url of movie image to the JSON property in the response
     private String url;
 
+    @JsonProperty("release_date")
     private String releaseDate;
 
 }

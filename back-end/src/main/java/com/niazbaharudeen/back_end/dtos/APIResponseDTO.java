@@ -1,5 +1,9 @@
 package com.niazbaharudeen.back_end.dtos;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -7,5 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class APIResponseDTO {
 
-    private ResultsResponseDTO resultsResponseDTO;
+    @JsonProperty("results")
+    private List<MovieResponseDTO> movieResponseDTOs;
 }
