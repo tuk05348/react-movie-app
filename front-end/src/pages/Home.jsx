@@ -1,5 +1,6 @@
 import MovieCard from "../components/MovieCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getPopularMovies } from "../services/api";
 import "../css/Home.css";
 
 function Home() {
@@ -9,12 +10,28 @@ function Home() {
   //state persists across rerenders until a page refresh
   const [searchQuery, setSearchQuery] = useState("");
 
-  //dummy array of movies
-  const movies = [
-    { id: 1, title: "John Wick", release_date: 2020 },
-    { id: 2, title: "Terminator", release_date: 1984 },
-    { id: 3, title: "The Matrix", release_date: 1999 },
-  ];
+  const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  //use effect lets you define side effects in your component and when they should run
+  useEffect(() => {
+    const loadPopularMovies = async () => {
+      try {
+        const popularMovies = await getPopularMovies();
+        setMovies(popularMovies);
+      } catch (err) {
+        setError("Failed to load movies...");
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPopularMovies();
+  }, []); //pass function and then dependency array
+  //we check whatever is inside the array after we rerender, and if it changed, we run the
+  //effect again, if nothing is inside it only runs once
 
   const handleSearch = (e) => {
     e.preventDefault();
