@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MovieResponseDTO {
 
+    private int id;
+
     private String title;
 
     @JsonProperty("poster_path") // map url of movie image to the JSON property in the response
@@ -16,5 +18,13 @@ public class MovieResponseDTO {
 
     @JsonProperty("release_date")
     private String releaseDate;
+
+    public void setUrl(String url) {
+        this.url = "https://image.tmdb.org/t/p/w500" + url;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate.split("-")[0];
+    }
 
 }

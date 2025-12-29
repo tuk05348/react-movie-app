@@ -10,11 +10,13 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/movies")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class MovieController {
 
     private final MovieService movieService;
