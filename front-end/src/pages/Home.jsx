@@ -1,6 +1,6 @@
 import MovieCard from "../components/MovieCard";
 import { useState, useEffect } from "react";
-import { getPopularMovies } from "../services/api";
+import { getPopularMovies, searchMovies } from "../services/api";
 import "../css/Home.css";
 
 function Home() {
@@ -33,9 +33,26 @@ function Home() {
   //we check whatever is inside the array after we rerender, and if it changed, we run the
   //effect again, if nothing is inside it only runs once
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
-    alert(searchQuery);
+
+    if (!searchQuery.trim()) return;
+    if (loading) return;
+
+    setLoading(true);
+
+    try {
+      const searchResults = await searchMovies(searchQuery);
+      setMovies(searchResults);
+      setError(null);
+    } catch (err) {
+      console.log(err);
+      setError("Failed to search movies...");
+    } finally {
+      setLoading(false);
+    }
+
+    setSearchQuery("");
   };
   //use map function to map each movie in the array using an anonymous function
   //each movie is mapped to a movie card, the movie is passed as a prop
