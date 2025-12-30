@@ -8,4 +8,5 @@ public interface MovieService {
 
     List<MovieResponseDTO> getPopularMovies();
 
+    List<MovieResponseDTO> searchMovies(String query);
 }

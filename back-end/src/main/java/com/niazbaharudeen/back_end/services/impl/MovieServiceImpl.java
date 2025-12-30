@@ -42,4 +42,15 @@ public class MovieServiceImpl implements MovieService {
         return apiResponseDTO.getMovieResponseDTOs();
     }
 
+    @Override
+    public List<MovieResponseDTO> searchMovies(String query) {
+        RestClient restClient = createRestClient();
+        APIResponseDTO apiResponseDTO = restClient
+                .get()
+                .uri("/search/movie?query={query}", query)
+                .retrieve()
+                .body(APIResponseDTO.class);
+        return apiResponseDTO.getMovieResponseDTOs();
+    }
+
 }
