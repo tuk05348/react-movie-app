@@ -68,7 +68,7 @@ public class MovieServiceImpl implements MovieService {
     public void favoriteMovie(MovieRequestDTO movieRequestDTO) {
         Movie movie = movieMapper.dtoToEntity(movieRequestDTO);
 
-        Optional<Movie> checkMovie = favoriteMovieRepository.findbyExternalId(movie.getExternalId());
+        Optional<Movie> checkMovie = favoriteMovieRepository.findByExternalId(movie.getExternalId());
 
         if (checkMovie.isPresent() && checkMovie.get().isDeleted()) {
             movie.setDeleted(false);

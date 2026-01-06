@@ -13,5 +13,5 @@ public interface FavoriteMovieRepository extends JpaRepository<Movie, Long> {
 
     List<Movie> findAllByDeletedFalse();
 
-    Optional<Movie> findbyExternalId(Long externalId);
+    Optional<Movie> findByExternalId(Long externalId);
 }
