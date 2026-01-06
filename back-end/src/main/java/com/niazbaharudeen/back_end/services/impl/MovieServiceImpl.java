@@ -1,6 +1,7 @@
 package com.niazbaharudeen.back_end.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -8,14 +9,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import com.niazbaharudeen.back_end.dtos.APIResponseDTO;
+import com.niazbaharudeen.back_end.dtos.MovieRequestDTO;
 import com.niazbaharudeen.back_end.dtos.MovieResponseDTO;
+import com.niazbaharudeen.back_end.entities.Movie;
+import com.niazbaharudeen.back_end.mappers.MovieMapper;
+import com.niazbaharudeen.back_end.repositories.FavoriteMovieRepository;
 import com.niazbaharudeen.back_end.services.MovieService;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService {
 
     @Autowired
     private Environment environment;
+
+    private final FavoriteMovieRepository favoriteMovieRepository;
+    private final MovieMapper movieMapper;
 
     private RestClient createRestClient() {
         return RestClient.builder()
@@ -51,6 +62,26 @@ public class MovieServiceImpl implements MovieService {
                 .retrieve()
                 .body(APIResponseDTO.class);
         return apiResponseDTO.getMovieResponseDTOs();
+    }
+
+    @Override
+    public void favoriteMovie(MovieRequestDTO movieRequestDTO) {
+        Movie movie = movieMapper.dtoToEntity(movieRequestDTO);
+
+        Optional<Movie> checkMovie = favoriteMovieRepository.findbyExternalId(movie.getExternalId());
+
+        if (checkMovie.isPresent() && checkMovie.get().isDeleted()) {
+            movie.setDeleted(false);
+        } else if (checkMovie.isPresent()) {
+            movie.setDeleted(true);
+        }
+
+        favoriteMovieRepository.saveAndFlush(movie);
+    }
+
+    @Override
+    public List<MovieResponseDTO> getFavoriteMovies() {
+        return movieMapper.entitiesToDTOs(favoriteMovieRepository.findAllByDeletedFalse());
     }
 
 }
