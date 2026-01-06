@@ -15,9 +15,13 @@ public class Movie {
     @GeneratedValue
     private Long id;
 
+    private Long externalId;
+
     private String title;
 
     private String url;
 
     private String releaseDate;
+
+    private boolean isDeleted;
 }

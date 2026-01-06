@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MovieResponseDTO {
 
-    private int id;
+    @JsonProperty("id")
+    private int externalId;
 
     private String title;
 
