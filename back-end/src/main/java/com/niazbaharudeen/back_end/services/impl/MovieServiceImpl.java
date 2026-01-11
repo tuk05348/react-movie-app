@@ -81,7 +81,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<MovieResponseDTO> getFavoriteMovies() {
-        return movieMapper.entitiesToDTOs(favoriteMovieRepository.findAllByDeletedFalse());
+        return movieMapper.entitiesToDTOs(favoriteMovieRepository.findAllByIsDeletedFalse());
     }
 
 }
