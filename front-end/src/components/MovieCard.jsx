@@ -1,9 +1,11 @@
 import "../css/MovieCard.css";
+import { favoriteMovie } from "../services/api";
 
-function MovieCard({ movie }) {
+function MovieCard({ movie, setClicked }) {
   //skeleton function for click on favorite button
-  function onFavoriteClick() {
-    alert("Clicked!");
+  async function onFavoriteClick() {
+    await favoriteMovie(movie);
+    setClicked(true);
   }
 
   //returns a movie card with movie info and image arranged on it
