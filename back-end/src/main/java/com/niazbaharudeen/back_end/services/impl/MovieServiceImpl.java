@@ -72,8 +72,10 @@ public class MovieServiceImpl implements MovieService {
 
         if (checkMovie.isPresent() && checkMovie.get().isDeleted()) {
             movie.setDeleted(false);
+            movie.setId(checkMovie.get().getId());
         } else if (checkMovie.isPresent()) {
             movie.setDeleted(true);
+            movie.setId(checkMovie.get().getId());
         }
 
         favoriteMovieRepository.saveAndFlush(movie);
