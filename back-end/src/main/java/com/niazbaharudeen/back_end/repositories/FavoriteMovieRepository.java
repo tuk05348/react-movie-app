@@ -11,7 +11,8 @@ import com.niazbaharudeen.back_end.entities.Movie;
 @Repository
 public interface FavoriteMovieRepository extends JpaRepository<Movie, Long> {
 
-    List<Movie> findAllByIsDeletedFalse();
+    // Derived queries for the Favorite Movies database
+    List<Movie> findAllByIsDeletedFalse(); // find all favorite movies not deleted
 
-    Optional<Movie> findByExternalId(Long externalId);
+    Optional<Movie> findByExternalId(Long externalId); // find favorite by its TMDB id
 }

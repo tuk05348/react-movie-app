@@ -2,10 +2,10 @@ import "../css/MovieCard.css";
 import { favoriteMovie } from "../services/api";
 
 function MovieCard({ movie, setClicked }) {
-  //skeleton function for click on favorite button
+  // function for click on favorite button
   async function onFavoriteClick() {
-    await favoriteMovie(movie);
-    setClicked(true);
+    await favoriteMovie(movie); // favorite the movie that was clicked using the API service method
+    setClicked(true); // use setClicked function (passed as prop) and set value to true
   }
 
   //returns a movie card with movie info and image arranged on it

@@ -15,49 +15,59 @@ function Home() {
   const [loading, setLoading] = useState(true);
 
   //use effect lets you define side effects in your component and when they should run
+  //this runs only once when the component renders
   useEffect(() => {
     const loadPopularMovies = async () => {
       try {
+        // use the API service function to get popular movies from TMDB
         const popularMovies = await getPopularMovies();
-        setMovies(popularMovies);
+        setMovies(popularMovies); // change state, set movies to the popular movies we got
       } catch (err) {
-        setError("Failed to load movies...");
-        console.log(err);
+        // if it failed to get movies and returned an error
+        setError("Failed to load movies..."); // set error state to the following message
+        console.log(err); // log error in console
       } finally {
-        setLoading(false);
+        setLoading(false); // after movie loading and error handling is done set loading state to false
       }
     };
 
-    loadPopularMovies();
+    loadPopularMovies(); // call the loadPopularMovies function
   }, []); //pass function and then dependency array
   //we check whatever is inside the array after we rerender, and if it changed, we run the
   //effect again, if nothing is inside it only runs once
 
+  // function to handle when the user searches for a movie
   const handleSearch = async (e) => {
     e.preventDefault();
 
-    if (!searchQuery.trim()) return;
+    if (!searchQuery.trim()) return; // if the search query is empty, return nothing
     if (loading) return;
 
     setLoading(true);
 
     try {
-      const searchResults = await searchMovies(searchQuery);
-      setMovies(searchResults);
+      // if the search query is valid
+      const searchResults = await searchMovies(searchQuery); // call the search api
+      setMovies(searchResults); // once the results have arrived, set them in state
       setError(null);
     } catch (err) {
+      // catch any errors and set the error state and message
       console.log(err);
       setError("Failed to search movies...");
     } finally {
+      // complete loading
       setLoading(false);
     }
 
-    setSearchQuery("");
+    setSearchQuery(""); // after the search is done, clear the search bar
   };
-  //use map function to map each movie in the array using an anonymous function
-  //each movie is mapped to a movie card, the movie is passed as a prop
-  //for map to work, the key property is needed so React knows which component to update
-  //returns a skeleton home page with a search form and a grid of movies
+  // use map function to map each movie in the array using an anonymous function
+  // each movie is mapped to a movie card, the movie is passed as a prop
+  // for map to work, the key property is needed so React knows which component to update
+  // returns a home page with a search form and a grid of movies
+  // a void function with a 0 expression is passed for setClicked since that function is used
+  // by the MovieCard to update state on the Favorites page, so the Home page doesn't need it
+  // use conditional rendering to show error messages
   return (
     <div className="home">
       <form onSubmit={handleSearch} className="search-form">

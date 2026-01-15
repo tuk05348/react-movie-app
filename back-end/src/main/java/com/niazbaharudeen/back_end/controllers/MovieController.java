@@ -25,21 +25,25 @@ public class MovieController {
 
     private final MovieService movieService;
 
+    // GET: First page of Popular Movies from The Movie Database
     @GetMapping("/popular")
     public List<MovieResponseDTO> getPopularMovies() {
         return movieService.getPopularMovies();
     }
 
+    // GET: All movies that match user-provided search query
     @GetMapping("/search")
     public List<MovieResponseDTO> searchMovies(@RequestParam String query) {
         return movieService.searchMovies(query);
     }
 
+    // POST: Favorite/Unfavorite a movie
     @PostMapping("/favorite")
     public void favoriteMovie(@RequestBody MovieRequestDTO movieRequestDTO) {
         movieService.favoriteMovie(movieRequestDTO);
     }
 
+    // GET: All movies favorited by a user
     @GetMapping("/favoriteMovies")
     public List<MovieResponseDTO> getFavoriteMovies() {
         return movieService.getFavoriteMovies();
