@@ -99,4 +99,11 @@ public class MovieServiceImpl implements MovieService {
         return movieMapper.entitiesToDTOs(favoriteMovieRepository.findAllByIsDeletedFalse());
     }
 
+    @Override
+    public Boolean isFavorite(Long externalId) {
+        // Use derived query to check whether a movie exists in the favorites table
+        // by its external Id and it is not deleted (i.e. it is a current favorite)
+        return favoriteMovieRepository.existsByExternalIdAndIsDeletedFalse(externalId);
+    }
+
 }

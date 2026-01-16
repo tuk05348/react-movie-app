@@ -14,4 +14,6 @@ public interface MovieService {
     void favoriteMovie(MovieRequestDTO movieRequestDTO);
 
     List<MovieResponseDTO> getFavoriteMovies();
+
+    Boolean isFavorite(Long externalId);
 }

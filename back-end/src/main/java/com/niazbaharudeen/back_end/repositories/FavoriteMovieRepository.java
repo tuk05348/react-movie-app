@@ -15,4 +15,7 @@ public interface FavoriteMovieRepository extends JpaRepository<Movie, Long> {
     List<Movie> findAllByIsDeletedFalse(); // find all favorite movies not deleted
 
     Optional<Movie> findByExternalId(Long externalId); // find favorite by its TMDB id
+
+    Boolean existsByExternalIdAndIsDeletedFalse(Long externalId); // check if movie is in favorites table and is not
+                                                                  // deleted
 }
