@@ -50,6 +50,13 @@ Favorites a movie if it has not been favorited by the user and unfavorites a mov
 
 }`
 
+**`GET movies/isFavorite`**
+
+Returns whether a movie is currently favorited or not
+
+**Response**
+`[Boolean]`
+
 ## Front-End Overview
 
 The front-end is a React project that displays movies from The Movie Database. There is a home page that shows popular movies, and a favorites page that shows movies favorited by the user.

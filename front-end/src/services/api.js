@@ -49,3 +49,12 @@ export const favoriteMovie = async (movie) => {
     body: JSON.stringify(movieRequestDto),
   });
 };
+
+export const getMovieStatus = async (movie) => {
+  // get a movie's favorite status, provide the movie's id as a query param
+  // await a fetch of the isFavorite endpoint
+  // return the JSON response of the API
+  const response = await fetch(`${BASE_URL}/isFavorite?externalId=${movie.id}`);
+  const data = await response.json();
+  return data;
+};
