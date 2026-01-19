@@ -51,12 +51,7 @@ function Favorites() {
       ) : (
         <div className="movies-grid">
           {movies.map((movie) => (
-            <MovieCard
-              movie={movie}
-              key={movie.id}
-              homePage={false}
-              setClicked={setClicked}
-            />
+            <MovieCard movie={movie} key={movie.id} setClicked={setClicked} />
           ))}
         </div>
       )}

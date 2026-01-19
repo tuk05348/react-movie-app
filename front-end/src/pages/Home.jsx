@@ -90,12 +90,7 @@ function Home() {
       ) : (
         <div className="movies-grid">
           {movies.map((movie) => (
-            <MovieCard
-              movie={movie}
-              key={movie.id}
-              homePage={true}
-              setClicked={() => void 0}
-            />
+            <MovieCard movie={movie} key={movie.id} setClicked={() => void 0} />
           ))}
         </div>
       )}
