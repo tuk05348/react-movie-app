@@ -48,14 +48,9 @@ Favorites a movie if it has not been favorited by the user and unfavorites a mov
 
     releaseDate: 'string',
 
+    isFavorited: 'boolean'
+
 }`
-
-**`GET movies/isFavorite`**
-
-Returns whether a movie is currently favorited or not
-
-**Response**
-`[Boolean]`
 
 ## Front-End Overview
 

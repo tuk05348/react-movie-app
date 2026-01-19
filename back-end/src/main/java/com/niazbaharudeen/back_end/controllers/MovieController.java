@@ -49,10 +49,4 @@ public class MovieController {
         return movieService.getFavoriteMovies();
     }
 
-    // GET: Whether a movie is favorited or not
-    @GetMapping("/isFavorite")
-    public Boolean isFavorite(@RequestParam Long externalId) {
-        return movieService.isFavorite(externalId);
-    }
-
 }

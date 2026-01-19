@@ -40,6 +40,20 @@ public class MovieServiceImpl implements MovieService {
                 .build();
     }
 
+    // Helper method to modify returned list of movies
+    private List<MovieResponseDTO> setIsFavoritedinResponse(List<MovieResponseDTO> movieResponseDTOs) {
+        for (MovieResponseDTO movieResponseDTO : movieResponseDTOs) {
+            Optional<Movie> movie = favoriteMovieRepository
+                    .findByExternalId(Long.valueOf(movieResponseDTO.getExternalId()));
+            if (movie.isPresent()) {
+                movieResponseDTO.setIsFavorited(movie.get().getIsFavorited());
+            } else {
+                movieResponseDTO.setIsFavorited(false);
+            }
+        }
+        return movieResponseDTOs;
+    }
+
     @Override
     public List<MovieResponseDTO> getPopularMovies() {
         // Call the external API with the Rest Client
@@ -52,7 +66,7 @@ public class MovieServiceImpl implements MovieService {
                 .uri("/movie/popular")
                 .retrieve()
                 .body(APIResponseDTO.class);
-        return apiResponseDTO.getMovieResponseDTOs();
+        return setIsFavoritedinResponse(apiResponseDTO.getMovieResponseDTOs());
     }
 
     @Override
@@ -65,7 +79,7 @@ public class MovieServiceImpl implements MovieService {
                 .uri("/search/movie?query={query}", query)
                 .retrieve()
                 .body(APIResponseDTO.class);
-        return apiResponseDTO.getMovieResponseDTOs();
+        return setIsFavoritedinResponse(apiResponseDTO.getMovieResponseDTOs());
     }
 
     @Override
@@ -79,12 +93,12 @@ public class MovieServiceImpl implements MovieService {
         // store it as an optional
         Optional<Movie> checkMovie = favoriteMovieRepository.findByExternalId(movie.getExternalId());
 
-        if (checkMovie.isPresent() && checkMovie.get().isDeleted()) { // if the movie is present and it is deleted
-            movie.setDeleted(false); // set the isDeleted attribute to false since we're favoriting it
+        if (checkMovie.isPresent() && checkMovie.get().getIsFavorited()) { // if the movie is present and it is deleted
+            movie.setIsFavorited(false); // set the isDeleted attribute to false since we're favoriting it
             movie.setId(checkMovie.get().getId()); // set id to the id of the existing movie in DB so it updates said
                                                    // entry on save and flush
         } else if (checkMovie.isPresent()) { // else if condition occurs only if movie is present and is not deleted
-            movie.setDeleted(true); // set isDeleted to true since we are unfavoriting an existing movie in the DB
+            movie.setIsFavorited(true); // set isDeleted to true since we are unfavoriting an existing movie in the DB
             movie.setId(checkMovie.get().getId()); // set id to that of the existing movie to ensure it updates it
         }
         // save and flush the updated movie object
@@ -96,14 +110,7 @@ public class MovieServiceImpl implements MovieService {
         // Get all the favorite movies from the repository that are not deleted using a
         // derived query
         // Use mapper to convert returned movies to movie response DTOs
-        return movieMapper.entitiesToDTOs(favoriteMovieRepository.findAllByIsDeletedFalse());
-    }
-
-    @Override
-    public Boolean isFavorite(Long externalId) {
-        // Use derived query to check whether a movie exists in the favorites table
-        // by its external Id and it is not deleted (i.e. it is a current favorite)
-        return favoriteMovieRepository.existsByExternalIdAndIsDeletedFalse(externalId);
+        return movieMapper.entitiesToDTOs(favoriteMovieRepository.findAllByIsFavoritedTrue());
     }
 
 }

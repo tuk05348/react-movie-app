@@ -14,4 +14,6 @@ public class MovieRequestDTO {
     private String url;
 
     private String releaseDate;
+
+    private Boolean isFavorited;
 }

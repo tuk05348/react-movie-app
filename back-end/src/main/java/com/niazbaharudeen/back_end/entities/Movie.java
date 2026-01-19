@@ -23,5 +23,5 @@ public class Movie {
 
     private String releaseDate;
 
-    private boolean isDeleted;
+    private Boolean isFavorited;
 }
